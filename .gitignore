@@ -1,0 +1,5 @@
+config/
+config.json
+bot.db
+package-lock.json
+node_modules/
