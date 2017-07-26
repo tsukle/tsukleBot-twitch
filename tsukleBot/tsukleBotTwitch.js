@@ -4,6 +4,8 @@ const config = require('./config/config.json');
 
 const commandDB = require('./database/commandDB.js');
 const announcementDB = require('./database/announcementDB.js');
+const domainDB = require('./database/domainDB.js');
+const whitelistDB = require('./database/whitelistDB.js');
 
 //tmi options
 let options = {
@@ -26,13 +28,18 @@ const client = new tmi.client(options);
 //Table creation
 commandDB.createTable();
 announcementDB.createTable();
-setInterval((announcement) => {
-    announcementDB.currentAnnouncement((announcement) => {
-        if(announcement == null) return;
-        client.say("#tsukle", announcement);
+domainDB.createTable();
+whitelistDB.createTable();
+
+//Announcements.
+setInterval(() => {
+    announcementDB.currentAnnouncement((result) => {
+        if(result == null) return;
+        client.action("#tsukle", `[ANNOUNCEMENT] ${result.announcement}`);
+        console.log("Announcement found and announced.");
     });
-    console.log("announced.");
-}, 5000);
+    console.log("Interval called.");
+}, 300000); 
 
 //twitch event loader
 require('./util/eventLoader')(client, config);

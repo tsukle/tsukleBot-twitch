@@ -5,4 +5,5 @@ const chalkWarn = chalk.bgRed.white;
 
 module.exports = (address, port, client, config) => {
     console.log(chalkInfo(`Connected to: ${address}:${port}`));
+    client.color("DodgerBlue");
 }
