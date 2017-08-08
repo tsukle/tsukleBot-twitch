@@ -8,7 +8,7 @@ const chalkWarn = chalk.bgRed.white;
 module.exports = (channel, userstate, message, self, client, config) => {
     if(self == true) return;
 
-    capsSpamTest(client, message, userstate);
+    //capsSpamTest(client, message, userstate);
     hyperlinkTest(client, message, userstate);
     //Hyperlink test.
 
