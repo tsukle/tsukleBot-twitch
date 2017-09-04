@@ -32,14 +32,16 @@ domainDB.createTable();
 whitelistDB.createTable();
 
 //Announcements.
+//Main announcement.
 setInterval(() => {
     announcementDB.currentAnnouncement((result) => {
         if(result == null) return;
-        client.action("#tsukle", `[ANNOUNCEMENT] ${result.announcement}`);
+        client.say("#tsukle", `GivePLZ ${result.announcement} TakeNRG`);
         console.log("Announcement found and announced.");
     });
     console.log("Interval called.");
-}, 300000); 
+}, 600000);
+//Plans to expand announcement to Prime and Social stuff outside of typical announcements.
 
 //twitch event loader
 require('./util/eventLoader')(client, config);

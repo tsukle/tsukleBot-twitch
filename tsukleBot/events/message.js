@@ -8,9 +8,7 @@ const chalkWarn = chalk.bgRed.white;
 module.exports = (channel, userstate, message, self, client, config) => {
     if(self == true) return;
 
-    //capsSpamTest(client, message, userstate);
     hyperlinkTest(client, message, userstate);
-    //Hyperlink test.
 
     if(message.startsWith(config.prefix)){
         const command = message.split(' ')[0].slice(config.prefix.length);
@@ -33,33 +31,6 @@ module.exports = (channel, userstate, message, self, client, config) => {
     }
 }
 
-function capsSpamTest(client, message, userstate){
-    //Capital letter spam check.
-    let capsSpamArray = ["chill out with the caps!", "woah! why so many caps?", "come on bruh, stop with the caps..."];
-    let stringArray = message.split("");
-    let uppercaseArray = [];
-    let lowercaseArray = [];
-    let character = '';
-    for (i in stringArray){
-        character = stringArray[i];
-        if (!isNaN(character * 1)){
-            return;
-        }else{
-            if (character == character.toUpperCase()) {
-                uppercaseArray.push(character);
-            }
-            if (character == character.toLowerCase()){
-                lowercaseArray.push(character);
-            }
-        }
-    }
-
-    if(uppercaseArray.length > lowercaseArray.length){
-        client.timeout("#tsukle", userstate["username"], 30, "Sending too many capital letters in a message.");
-        client.say("#tsukle", `${userstate["username"]}, ${capsSpamArray[Math.floor((Math.random() * 3))]}`);
-    }
-}
-
 function hyperlinkTest(client, message, userstate){
     let urlArray = ["that link is definitely not whitelisted.", "you must be whitelisted to send this link.", "not cool."];
     let expression = /[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/
@@ -74,16 +45,16 @@ function hyperlinkTest(client, message, userstate){
                 return;
             }
             else{
-                whitelistDB.findUser(userstate["username"], (user) => {
+                whitelistDB.findUser(userstate["display-name"], (user) => {
                     console.log(user);
                     if(user != null){
                         whitelistDB.removeUser(user.username);
-                        client.say("#tsukle", `${userstate["username"]}, you just used up your whitelist.`);
+                        client.say("#tsukle", `${userstate["display-name"]}, you just used up your whitelist.`);
                         return;
                     }
                     else{
-                        client.timeout("#tsukle", userstate["username"], 30, "Sending non-whitelisted URLS.");
-                        client.say("#tsukle", `${userstate["username"]}, ${urlArray[Math.floor((Math.random() * 3))]}`);
+                        client.timeout("#tsukle", userstate["username"], 1, "Sending non-whitelisted URLS.");
+                        client.say("#tsukle", `${userstate["username"]}, ${urlArray[Math.floor((Math.random() * 3))]}`); 
                     }
                 });
             }
